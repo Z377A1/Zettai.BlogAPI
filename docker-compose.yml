@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  sqlserver:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: blogapi-sqlserver
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=BlogApi123!
+      - MSSQL_PID=Developer
+    ports:
+      - "1433:1433"
+    volumes:
+      - sqlserver_data:/var/opt/mssql
+    networks:
+      - blogapi-network
+    restart: unless-stopped
+
+  blogapi:
+    build:
+      context: .
+      dockerfile: BlogAPI.Web/Dockerfile
+    container_name: blogapi-web
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:80
+      - ConnectionStrings__DefaultConnection=Server=sqlserver,1433;Database=BlogApiDb;User Id=sa;Password=BlogApi123!;TrustServerCertificate=true;MultipleActiveResultSets=true
+      - TokenKey=SuperSecretKeyForJWTTokens123456789!
+    ports:
+      - "5000:80"
+    depends_on:
+      - sqlserver
+    networks:
+      - blogapi-network
+    restart: unless-stopped
+
+volumes:
+  sqlserver_data:
+
+networks:
+  blogapi-network:
+    driver: bridge

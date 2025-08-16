@@ -36,9 +36,35 @@ BlogAPI/
 ### Prerequisites
 
 - .NET 8 SDK
-- SQL Server (LocalDB for development)
+- Docker and Docker Compose (recommended)
+- SQL Server (LocalDB for development without Docker)
 
-### Setup
+### Setup Options
+
+#### Option A: Docker Setup (Recommended)
+
+1. **Clone the repository**
+   ```bash
+   git clone <repository-url>
+   cd BlogAPI
+   ```
+
+2. **Start SQL Server with Docker**
+   ```bash
+   docker-compose -f docker-compose.dev.yml up -d
+   ```
+
+3. **Run database migrations**
+   ```bash
+   dotnet ef database update --project BlogAPI.Infrastructure --startup-project BlogAPI.Web
+   ```
+
+4. **Run the API**
+   ```bash
+   dotnet run --project BlogAPI.Web
+   ```
+
+#### Option B: LocalDB Setup
 
 1. **Clone the repository**
    ```bash
@@ -47,7 +73,7 @@ BlogAPI/
    ```
 
 2. **Configure connection string**
-   Update `appsettings.Development.json`:
+   Update `appsettings.Development.json` to use LocalDB:
    ```json
    {
      "ConnectionStrings": {
@@ -76,6 +102,19 @@ BlogAPI/
 
 ```bash
 dotnet test
+```
+
+### Docker Deployment
+
+See [Docker-README.md](Docker-README.md) for detailed Docker setup instructions.
+
+**Quick Docker start:**
+```bash
+# SQL Server only (run API locally)
+docker-compose -f docker-compose.dev.yml up -d
+
+# Full stack in Docker
+docker-compose up --build
 ```
 
 ## API Endpoints
