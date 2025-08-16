@@ -2,6 +2,7 @@
 using BlogAPI.Core.Entities;
 using BlogAPI.Core.Entities.DTOs;
 using BlogAPI.Infrastructure.Data;
+using BlogAPI.Core.Exceptions;
 
 namespace BlogAPI.Services
 {

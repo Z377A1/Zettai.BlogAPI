@@ -8,7 +8,7 @@ namespace BlogAPI.Infrastructure.Data.Configurations
     {
         public void Configure(EntityTypeBuilder<BlogPostTag> builder)
         {
-            builder.HasKey(bt => new { bt, bt.TagId });
+            builder.HasKey(bt => new { bt.BlogPostId, bt.TagId });
             builder.HasIndex(bt => bt.TagId);
         }
     }

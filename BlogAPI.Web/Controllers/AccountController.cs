@@ -1,5 +1,6 @@
 ﻿using BlogAPI.Core.Entities.DTOs.Identity;
 using BlogAPI.Infrastructure.Identity;
+using BlogAPI.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
@@ -34,6 +35,7 @@ namespace BlogAPI.Web.Controllers
         public async Task<ActionResult<ApplicationUserDto>> GetCurrentUser()
         {
             var email = User.FindFirstValue(ClaimTypes.Email);
+            if (email == null) return Unauthorized();
             return await _identityService.GetCurrentUser(email);
         }
     }

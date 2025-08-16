@@ -8,12 +8,11 @@ namespace BlogAPI.Core.Entities.DTOs
         public int Id { get; set; }
 
         [Required]
-        public string Content { get; set; }
+    public string Content { get; set; } = string.Empty;
 
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
 
-        public BlogPostDto BlogPost { get; set; }
-        public ApplicationUserDto Author { get; set; }
+    public ApplicationUserDto? Author { get; set; }
     }
 }

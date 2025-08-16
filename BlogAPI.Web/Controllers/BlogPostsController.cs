@@ -1,5 +1,7 @@
 ﻿using BlogAPI.Core.Entities.DTOs;
 using Microsoft.AspNetCore.Authorization;
+using BlogAPI.Services;
+using BlogAPI.Core.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 using System.Security.Claims;
 
@@ -41,6 +43,7 @@ namespace BlogAPI.Web.Controllers
         public async Task<ActionResult<BlogPostDto>> CreateBlogPost(CreateBlogPostDto blogPostDto)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null) return Unauthorized();
             var blogPost = await _blogService.CreateBlogPostAsync(blogPostDto, userId);
 
             return CreatedAtAction(nameof(GetBlogPost), new { id = blogPost.Id }, blogPost);
@@ -56,6 +59,7 @@ namespace BlogAPI.Web.Controllers
             }
 
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null) return Unauthorized();
             var isAdmin = User.IsInRole("Admin");
 
             try
@@ -79,6 +83,7 @@ namespace BlogAPI.Web.Controllers
         public async Task<IActionResult> DeleteBlogPost(int id)
         {
             var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            if (userId == null) return Unauthorized();
             var isAdmin = User.IsInRole("Admin");
 
             try

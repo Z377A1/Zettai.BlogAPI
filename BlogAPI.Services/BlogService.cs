@@ -94,7 +94,7 @@ namespace BlogAPI.Services
                 filter.PageSize,
                 totalRecords);
         }
-        public async Task<BlogPostDto> GetBlogPostByIdAsync(int id)
+    public async Task<BlogPostDto?> GetBlogPostByIdAsync(int id)
         {
             var blogPost = await _blogPostRepository.GetAll()
                 .Include(b => b.Author)
@@ -118,7 +118,7 @@ namespace BlogAPI.Services
                 .FirstOrDefaultAsync(b => b.Id == blogPostDto.Id);
 
             if (blogPost == null)
-                throw new KeyNotFoundException("Blog post not found.");
+                throw new BlogAPI.Core.Exceptions.NotFoundException(nameof(BlogPost), blogPostDto.Id);
 
             _mapper.Map(blogPostDto, blogPost);
 
@@ -165,7 +165,7 @@ namespace BlogAPI.Services
         {
             var blogPost = await _blogPostRepository.GetByIdAsync(id);
             if (blogPost == null)
-                throw new KeyNotFoundException("Blog post not found.");
+                throw new BlogAPI.Core.Exceptions.NotFoundException(nameof(BlogPost), id);
 
             _blogPostRepository.Delete(blogPost);
             await _blogPostRepository.SaveChangesAsync();

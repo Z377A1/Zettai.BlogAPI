@@ -20,6 +20,6 @@ namespace BlogAPI.Core.Entities.DTOs
 
         public ICollection<CategoryDto> Categories { get; set; } = new List<CategoryDto>();
         public ICollection<TagDto> Tags { get; set; } = new List<TagDto>();
-        public ICollection<CreateCommentDto> Comments { get; set; } = new List<CreateCommentDto>();
+    public ICollection<CommentDto> Comments { get; set; } = new List<CommentDto>();
     }
 }
