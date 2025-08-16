@@ -1,6 +1,74 @@
-@BlogAPI.Web_HostAddress = http://localhost:5289
+@BlogAPI_Web_HostAddress = http://localhost:5289
 
-# GET {{BlogAPI.Web_HostAddress}}/weatherforecast/
-# Accept: application/json
+### Test Health Check
+GET {{BlogAPI_Web_HostAddress}}/api/categories
+Accept: application/json
+
+### Register User
+POST {{BlogAPI_Web_HostAddress}}/api/account/register
+Content-Type: application/json
+
+{
+  "email": "test@example.com",
+  "password": "TestUser123!",
+  "confirmPassword": "TestUser123!"
+}
+
+### Login User
+POST {{BlogAPI_Web_HostAddress}}/api/account/login
+Content-Type: application/json
+
+{
+  "email": "test@example.com",
+  "password": "TestUser123!"
+}
+
+### Create Category (Auth Required)
+POST {{BlogAPI_Web_HostAddress}}/api/categories
+Content-Type: application/json
+Authorization: Bearer {{jwt_token}}
+
+{
+  "name": "Technology",
+  "description": "Tech-related posts"
+}
+
+### Get All Categories
+GET {{BlogAPI_Web_HostAddress}}/api/categories
+Accept: application/json
+
+### Create Tag (Auth Required)
+POST {{BlogAPI_Web_HostAddress}}/api/tags
+Content-Type: application/json
+Authorization: Bearer {{jwt_token}}
+
+{
+  "name": "ASP.NET Core",
+  "description": "ASP.NET Core related content"
+}
+
+### Get All Tags
+GET {{BlogAPI_Web_HostAddress}}/api/tags
+Accept: application/json
+
+### Create Blog Post (Auth Required)
+POST {{BlogAPI_Web_HostAddress}}/api/blogposts
+Content-Type: application/json
+Authorization: Bearer {{jwt_token}}
+
+{
+  "title": "Getting Started with ASP.NET Core",
+  "content": "This is a comprehensive guide to ASP.NET Core development...",
+  "categoryIds": [1],
+  "tagIds": [1]
+}
+
+### Get All Blog Posts
+GET {{BlogAPI_Web_HostAddress}}/api/blogposts
+Accept: application/json
+
+### Get Blog Post by ID
+GET {{BlogAPI_Web_HostAddress}}/api/blogposts/1
+Accept: application/json
 
 ###

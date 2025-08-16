@@ -49,8 +49,8 @@ builder.Services.AddAuthentication(options =>
         };
     });
 
-// AutoMapper (register profiles by marker type from Core assembly)
-builder.Services.AddAutoMapper(typeof(MappingProfile));
+// AutoMapper (register profiles from Core and Services assemblies)
+builder.Services.AddAutoMapper(typeof(MappingProfile), typeof(BlogAPI.Services.Mapping.ServiceMappingProfile));
 
 // Repositories
 builder.Services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
@@ -95,6 +95,14 @@ builder.Services.AddSwaggerGen(c =>
 });
 
 var app = builder.Build();
+
+// Seed data on startup
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+    await BlogAPI.Infrastructure.Data.DataSeeder.SeedDataAsync(context, userManager);
+}
 
 if (app.Environment.IsDevelopment())
 {
