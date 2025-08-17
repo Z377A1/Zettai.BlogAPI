@@ -149,7 +149,19 @@ docker-compose up --build
 Key configuration settings in `appsettings.json`:
 
 - **ConnectionStrings:DefaultConnection** - Database connection string
-- **TokenKey** - JWT signing key (keep secret in production)
+- **TokenKey** - JWT signing key (**must be at least 64 characters** for HMAC-SHA512 security)
+
+### JWT Token Key Requirements
+
+The `TokenKey` must be at least 512 bits (64 characters) long for HMAC-SHA512 algorithm. Examples:
+
+```json
+{
+  "TokenKey": "YOUR_SUPER_SECRET_JWT_KEY_THAT_IS_AT_LEAST_64_CHARACTERS_LONG_FOR_SECURITY"
+}
+```
+
+**⚠️ Security Note:** In production, use a cryptographically secure random key generator.
 
 ## Technologies Used
 

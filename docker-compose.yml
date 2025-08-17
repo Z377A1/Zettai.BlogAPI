@@ -23,7 +23,7 @@ services:
       - ASPNETCORE_ENVIRONMENT=Development
       - ASPNETCORE_URLS=http://+:80
       - ConnectionStrings__DefaultConnection=Server=sqlserver,1433;Database=BlogApiDb;User Id=sa;Password=BlogApi123!;TrustServerCertificate=true;MultipleActiveResultSets=true
-      - TokenKey=SuperSecretKeyForJWTTokens123456789!
+      - TokenKey=DOCKER_JWT_SECRET_KEY_FOR_HMAC_SHA512_ALGORITHM_MINIMUM_64_CHARACTERS_REQUIRED_FOR_SECURITY_AND_PROPER_FUNCTIONING
     ports:
       - "5000:80"
     depends_on:
