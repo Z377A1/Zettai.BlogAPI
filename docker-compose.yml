@@ -1,11 +1,13 @@
 services:
   sqlserver:
     image: mcr.microsoft.com/mssql/server:2022-latest
-    container_name: blogapi-sqlserver
+    container_name: sqlserver
+    user: root
     environment:
       - ACCEPT_EULA=Y
-      - SA_PASSWORD=BlogApi123!
-      - MSSQL_PID=Developer
+      - MSSQL_SA_PASSWORD=BlogApi123!
+      - MSSQL_PID=Express
+      - TZ=Etc/UTC
     ports:
       - "1433:1433"
     volumes:
@@ -18,9 +20,11 @@ services:
     build:
       context: .
       dockerfile: BlogAPI.Web/Dockerfile
+      args:
+        CONNECTION_STRING: "Server=sqlserver,1433;Database=BlogApiDb;User Id=sa;Password=BlogApi123!;TrustServerCertificate=true;MultipleActiveResultSets=true"
     container_name: blogapi-web
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_ENVIRONMENT=Production
       - ASPNETCORE_URLS=http://+:80
       - ConnectionStrings__DefaultConnection=Server=sqlserver,1433;Database=BlogApiDb;User Id=sa;Password=BlogApi123!;TrustServerCertificate=true;MultipleActiveResultSets=true
       - TokenKey=DOCKER_JWT_SECRET_KEY_FOR_HMAC_SHA512_ALGORITHM_MINIMUM_64_CHARACTERS_REQUIRED_FOR_SECURITY_AND_PROPER_FUNCTIONING
