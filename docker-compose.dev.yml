@@ -1,11 +1,13 @@
 services:
   sqlserver:
     image: mcr.microsoft.com/mssql/server:2022-latest
-    container_name: blogapi-sqlserver-dev
+    container_name: sqlserver-dev
+    user: root
     environment:
       - ACCEPT_EULA=Y
-      - SA_PASSWORD=BlogApi123!
+      - MSSQL_SA_PASSWORD=BlogApi123!
       - MSSQL_PID=Developer
+      - TZ=Etc/UTC
     ports:
       - "1433:1433"
     volumes:
